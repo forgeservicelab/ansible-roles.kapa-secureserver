@@ -1,8 +1,5 @@
 ---
-- hosts: all
-  sudo: true
-
-  tasks:
+- tasks:
     - name: Update apt cache & upgrade all
       apt: update_cache=yes upgrade=full
 
