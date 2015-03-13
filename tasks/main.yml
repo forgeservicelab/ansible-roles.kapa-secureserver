@@ -44,10 +44,10 @@
   apt_key: url=http://x-road.eu/.test/xroad6/xroad_repo.gpg state=present
 
 - name: Add additional X-Road key
-  apt_key: id=00A6F0A3C300EE8C url=http://keyserver.ubuntu.com state=present
+  apt_key: url=http://keyserver.ubuntu.com/pks/lookup?op=get&fingerprint=on&search=0x00A6F0A3C300EE8C state=present
 
 - name: Add additional X-Road key
-  apt_key: id=EB9B1D8886F44E2A url=http://keyserver.ubuntu.com state=present
+  apt_key: url=url=http://keyserver.ubuntu.com/pks/lookup?op=get&fingerprint=on&search=0xEB9B1D8886F44E2A state=present
 
 #    - name: Install packages required for KaPA
 #      apt:
