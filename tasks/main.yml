@@ -38,7 +38,7 @@
     line='LC_ALL=en_US.UTF-8'
 
 - name: Add X-Road repositories
-  template: src=templates/xroad.list dest=/etc/apt/sources.list.d/xroad.list owner=root group=root mode=0644
+  template: src=xroad.list dest=/etc/apt/sources.list.d/xroad.list owner=root group=root mode=0644
 
 - name: Add X-Road apt-key
   apt_key: url=http://x-road.eu/.test/xroad6/xroad_repo.gpg state=present
