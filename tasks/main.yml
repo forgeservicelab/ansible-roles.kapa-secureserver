@@ -8,11 +8,11 @@
 
     - name: Set cloud-init config to preserve hostname
       lineinfile:
-        dest=/etc/cloud/cloud.cfg
+        "dest=/etc/cloud/cloud.cfg
         create=no
         state=present
         regexp='preserve hostname'
-        line="preserve hostname\: true"
+        line='preserve hostname: true'"
 
     - name: Set IPv4 address into hosts file
       lineinfile:
