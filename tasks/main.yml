@@ -1,2 +1,59 @@
 ---
-# tasks file for kapa-secureserver
+- hosts: all
+  sudo: true
+
+  tasks:
+    - name: Update apt cache & upgrade all
+      apt: update_cache=yes upgrade=full
+
+    - name: Set cloud-init config to preserve hostname
+      lineinfile:
+        dest=/etc/cloud/cloud.cfg
+        create=no
+        state=present
+        regexp='preserve hostname'
+        line='preserve hostname: true'
+
+    - name: Set IPv4 address into hosts file
+      lineinfile:
+        dest=/etc/hosts
+        create=yes
+        state=present
+        regexp='{{ ansible_default_ipv4.address }}.*{{ ansible_hostname }}'
+        line='{{ ansible_default_ipv4.address }} {{ ansible_hostname }}'
+
+    - name: Configure LC_ALL locale
+      lineinfile:
+        dest=/etc/environment
+        create=yes
+        state=present
+        regexp='LC_ALL'
+        line='LC_ALL=en_US.UTF-8'
+
+    - user: name=grandmaster
+
+    - name: Configure LC_ALL locale
+      lineinfile:
+        dest=/etc/environment
+        create=yes
+        state=present
+        regexp='LC_ALL'
+        line='LC_ALL=en_US.UTF-8'
+
+    - name: Add X-Road repositories
+      template: src=templates/xroad.list dest=/etc/apt/sources.list.d/xroad.list owner=root group=root mode=0644
+
+    - name: Add X-Road apt-key
+      apt_key: url=http://x-road.eu/.test/xroad6/xroad_repo.gpg state=present
+
+    - name: Add additional X-Road key
+      apt_key: id=00A6F0A3C300EE8C url=http://keyserver.ubuntu.com state=present
+
+    - name: Add additional X-Road key
+      apt_key: id=EB9B1D8886F44E2A url=http://keyserver.ubuntu.com state=present
+
+#    - name: Install packages required for KaPA
+#      apt:
+#        name: xroad-proxy
+#        state: present
+#        update_cache: yes
