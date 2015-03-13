@@ -26,13 +26,6 @@
     regexp='LC_ALL'
     line='LC_ALL=en_US.UTF-8'
 
-- vars_prompt:
-  - name: "xroad_superuser_password"
-    prompt: "Please enter the password for X-Road superuser:"
-    private: yes
-    encrypt: "sha512_crypt"
-    confirm: yes
-
 - name: Add X-road user
   user: name={{ xroad_superuser }} password={{ xroad_superuser_password }}
 
