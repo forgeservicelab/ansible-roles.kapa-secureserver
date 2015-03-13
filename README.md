@@ -1,7 +1,7 @@
-Role Name
+kapa-secureserver
 =========
 
-Role for installing Secure Server ("Liityntäpalvelin") for X-Road (Kansallinen Palveluväylä / KaPA).
+Role for installing Secure Server for X-Road (Kansallinen Palveluväylä).
 
 Requirements
 ------------
@@ -23,9 +23,10 @@ Example Playbook
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+- hosts: all
+  sudo: true
+  roles:
+    - role: kapa-secureserver
 
 License
 -------
