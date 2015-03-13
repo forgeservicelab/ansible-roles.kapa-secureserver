@@ -67,7 +67,7 @@
   debconf:
     name: 'xroad-proxy'
     question: 'xroad-common/admin-altsubject'
-    value: '{{ xroad_service_dn_s }}'
+    value: '{{ xroad_admin_dn_s }}'
     vtype: 'string'
 
 - name: Add FQDN to X-Road service configuration
