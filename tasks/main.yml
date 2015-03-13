@@ -26,8 +26,9 @@
     regexp='LC_ALL'
     line='LC_ALL=en_US.UTF-8'
 
+# TODO: Use proper mkpasswd/passlib/equivalent
 - name: Add X-road user
-  user: name=grandmaster
+  user: name={{ xroad_superuser }} password={{ xroad_superuser }}
 
 - name: Configure LC_ALL locale
   lineinfile:
@@ -49,8 +50,42 @@
 - name: Add additional X-Road key
   apt_key: url=http://keyserver.ubuntu.com/pks/lookup?op=get&fingerprint=on&search=0xEB9B1D8886F44E2A state=present
 
-#    - name: Install packages required for KaPA
-#      apt:
-#        name: xroad-proxy
-#        state: present
-#        update_cache: yes
+- name: Add superuser username to X-Road service configuration
+  debconf:
+    name: 'xroad-proxy'
+    question: 'xroad-common/username'
+    value: '{{ xroad_superuser }}'
+    vtype: 'string'
+
+- name: Add FQDN to X-Road admin configuration
+  debconf:
+    name: 'xroad-proxy'
+    question: 'xroad-common/admin-subject'
+    value: '{{ xroad_admin_fqdn }}'
+    vtype: 'string'
+
+- name: Add alternative DNs to X-Road admin configuration
+  debconf:
+    name: 'xroad-proxy'
+    question: 'xroad-common/admin-altsubject'
+    value: '{{ xroad_service_dn_s }}'
+    vtype: 'string'
+
+- name: Add FQDN to X-Road service configuration
+  debconf:
+    name: 'xroad-proxy'
+    question: 'xroad-common/service-subject'
+    value: '{{ xroad_service_fqdn }}'
+    vtype: 'string'
+
+- name: Add alternative DNs to X-Road service configuration
+  debconf:
+    name: 'xroad-proxy'
+    question: 'xroad-common/service-altsubject'
+    value: '{{ xroad_service_dn_s }}'
+    vtype: 'string'
+
+- name: Install KaPA package and its dependencies
+  apt:
+    name: xroad-proxy
+    state: present
