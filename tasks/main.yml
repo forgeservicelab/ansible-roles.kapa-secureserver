@@ -1,5 +1,5 @@
 ---
-- name: Update apt cache & upgrade all
+- name: Update apt cache & upgrade all packages
   apt: update_cache=yes upgrade=full
 
 - name: Set cloud-init config to preserve hostname
@@ -18,7 +18,7 @@
     regexp='{{ ansible_default_ipv4.address }}.*{{ ansible_hostname }}'
     line='{{ ansible_default_ipv4.address }} {{ ansible_hostname }}'
 
-- name: Configure LC_ALL locale
+- name: Set LC_ALL locale in global environment
   lineinfile:
     dest=/etc/environment
     create=yes
@@ -29,41 +29,33 @@
 - name: Add X-road user
   user: name={{ xroad_superuser }} password={{ xroad_superuser_password }}
 
-- name: Configure LC_ALL locale
-  lineinfile:
-    dest=/etc/environment
-    create=yes
-    state=present
-    regexp='LC_ALL'
-    line='LC_ALL=en_US.UTF-8'
-
 - name: Add X-Road repositories
   template: src=xroad.list dest=/etc/apt/sources.list.d/xroad.list owner=root group=root mode=0644
 
-- name: Add X-Road apt-key
+- name: Add X-Road apt key
   apt_key: url=http://x-road.eu/.test/xroad6/xroad_repo.gpg state=present
 
-- name: Add additional X-Road key
+- name: Add additional X-Road apt key
   apt_key: url=http://keyserver.ubuntu.com/pks/lookup?op=get&fingerprint=on&search=0x00A6F0A3C300EE8C state=present
 
-- name: Add additional X-Road key
+- name: Add additional X-Road apt key
   apt_key: url=http://keyserver.ubuntu.com/pks/lookup?op=get&fingerprint=on&search=0xEB9B1D8886F44E2A state=present
 
-- name: Add superuser username to X-Road service configuration
+- name: Add superuser username to X-Road configuration
   debconf:
     name: 'xroad-proxy'
     question: 'xroad-common/username'
     value: '{{ xroad_superuser }}'
     vtype: 'string'
 
-- name: Add FQDN to X-Road admin configuration
+- name: Add FQDN to X-Road admin Web UI configuration
   debconf:
     name: 'xroad-proxy'
     question: 'xroad-common/admin-subject'
-    value: '{{ xroad_admin_fqdn }}'
+    value: '/CN={{ xroad_admin_fqdn }}'
     vtype: 'string'
 
-- name: Add alternative DNs to X-Road admin configuration
+- name: Add alternative DNs to X-Road admin Web UI configuration
   debconf:
     name: 'xroad-proxy'
     question: 'xroad-common/admin-altsubject'
@@ -74,7 +66,7 @@
   debconf:
     name: 'xroad-proxy'
     question: 'xroad-common/service-subject'
-    value: '{{ xroad_service_fqdn }}'
+    value: '/CN={{ xroad_service_fqdn }}'
     vtype: 'string'
 
 - name: Add alternative DNs to X-Road service configuration
@@ -84,7 +76,8 @@
     value: '{{ xroad_service_dn_s }}'
     vtype: 'string'
 
-- name: Install KaPA package and its dependencies
+- name: Install X-Road package and its dependencies
   apt:
+    update_cache: yes
     name: xroad-proxy
     state: present
