@@ -14,7 +14,7 @@ Role Variables
 
 - `xroad_admin_fqdn` - FQDN for the admin Web UI certificate.
 - `xroad_service_fqdn` - FQDN for the service certificate. If uncertain, use
-   same as xroad_admin_fqdn.
+   same as `xroad_admin_fqdn`.
 - `xroad_superuser_password` - Recommended to prompt in playbook, see
    example below.
 
@@ -26,6 +26,7 @@ N/A
 Example Playbook
 ----------------
 
+```
 - hosts: all
   sudo: true
   vars_prompt:
@@ -36,6 +37,7 @@ Example Playbook
     confirm: yes
   roles:
     - role: kapa-secureserver
+```
 
 License
 -------
@@ -45,4 +47,5 @@ BSD
 Author Information
 ------------------
 
-https://forgeservicelab.fi
+Jukka Nousiainen
+FORGE Service Lab
