@@ -1,2 +1,6 @@
 ---
-# defaults file for kapa-secureserver
+xroad_superuser: "grandmaster"
+xroad_admin_fqdn: "{{ ansible_fqdn }}"
+xroad_admin_dn_s: "IP:{{ ansible_default_ipv4.address }},DNS:{{ ansible_hostname }},DNS:{{ xroad_admin_fqdn }}"
+xroad_service_fqdn: "{{ ansible_fqdn }}"
+xroad_service_dn_s: "IP:{{ ansible_default_ipv4.address }},DNS:{{ ansible_hostname }},DNS:{{ xroad_service_fqdn }}"

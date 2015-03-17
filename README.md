@@ -6,8 +6,7 @@ Role for installing Secure Server for X-Road (Kansallinen Palveluväylä).
 Requirements
 ------------
 
-Ubuntu 14.04 or later on target machine. Transmitting the superuser password as
-private variable requires the `python-passlib` package.
+Ubuntu 14.04 or later on target machine.
 
 Role Variables
 --------------
@@ -15,8 +14,8 @@ Role Variables
 - `xroad_admin_fqdn` - FQDN for the admin Web UI certificate.
 - `xroad_service_fqdn` - FQDN for the service certificate. If uncertain, use
    same as `xroad_admin_fqdn`.
-- `xroad_superuser_password` - Recommended to prompt in playbook, see
-   example below.
+- `xroad_superuser_password` - Superuser password hash (or cleartext).
+   Recommended to prompt in playbook, see example below.
 
 Dependencies
 ------------
@@ -36,7 +35,9 @@ Example Playbook
     encrypt: "sha512_crypt"
     confirm: yes
   roles:
-    - role: kapa-secureserver
+    - { role: kapa-secureserver,
+        xroad_admin_fqdn: host.domain.org,
+        xroad_service_fqdn: host.domain.org }
 ```
 
 License
@@ -48,4 +49,5 @@ Author Information
 ------------------
 
 Jukka Nousiainen
+
 FORGE Service Lab
