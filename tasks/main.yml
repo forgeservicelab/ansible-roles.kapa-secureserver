@@ -82,14 +82,14 @@
     name: xroad-proxy
     state: present
 
-- name: Install alternative nginx certificate:
+- name: Install alternative nginx certificate
     dest:  "/etc/nginx/sites-enabled/default-sdsb"
     regexp: "ssl_certificate "
     line: "        ssl_certificate '{{ nginx_ssl_cert }}';"
     when: nginx_ssl_cert is defined
   notify: restart nginx
 
-- name: Install alternative nginx keyfile:
+- name: Install alternative nginx keyfile
     dest:  "/etc/nginx/sites-enabled/default-sdsb"
     regexp: "ssl_certificate_key"
     line: "        ssl_certificate_key '{{ nginx_ssl_key }}';"
