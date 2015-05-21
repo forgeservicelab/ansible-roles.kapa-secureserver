@@ -85,13 +85,13 @@
 - name: Install alternative nginx certificate:
     dest:  "/etc/nginx/sites-enabled/default-sdsb"
     regexp: "ssl_certificate "
-    line: "        ssl_certificate '{{ nginx_ssl_path }}'/'{{ nginx_ssl_cert }}';"
-    when: nginx_ssl_path is defined and nginx_ssl_cert is defined
+    line: "        ssl_certificate '{{ nginx_ssl_cert }}';"
+    when: nginx_ssl_cert is defined
   notify: restart nginx
 
 - name: Install alternative nginx keyfile:
     dest:  "/etc/nginx/sites-enabled/default-sdsb"
     regexp: "ssl_certificate_key"
-    line: "        ssl_certificate_key '{{ nginx_ssl_path }}'/'{{ nginx_ssl_key }}';"
-    when: nginx_ssl_path is defined and nginxe_ssl_key is defined
+    line: "        ssl_certificate_key '{{ nginx_ssl_key }}';"
+    when: nginx_ssl_key is defined
   notify: restart nginx
