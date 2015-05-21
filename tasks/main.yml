@@ -97,3 +97,7 @@
     line: "        ssl_certificate_key {{ nginx_ssl_key }};"
   when: nginx_ssl_key is defined
   notify: restart nginx
+
+- name: Workaround to service utility potentially not stopping nginx
+  command: killall nginx
+  notify: restart nginx
