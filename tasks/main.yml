@@ -83,6 +83,7 @@
     state: present
 
 - name: Install alternative nginx certificate
+  lineinfile:
     dest:  "/etc/nginx/sites-enabled/default-sdsb"
     regexp: "ssl_certificate "
     line: "        ssl_certificate '{{ nginx_ssl_cert }}';"
@@ -90,6 +91,7 @@
   notify: restart nginx
 
 - name: Install alternative nginx keyfile
+  lineinfile:
     dest:  "/etc/nginx/sites-enabled/default-sdsb"
     regexp: "ssl_certificate_key"
     line: "        ssl_certificate_key '{{ nginx_ssl_key }}';"
