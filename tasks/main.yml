@@ -82,20 +82,36 @@
     name: xroad-proxy
     state: present
 
-- name: Install alternative nginx certificate
+- name: Install alternative Web UI certificate
   lineinfile:
     dest:  "/etc/nginx/sites-enabled/default-sdsb"
     regexp: "ssl_certificate "
-    line: "        ssl_certificate {{ nginx_ssl_cert }};"
+    line: "        ssl_certificate {{ internal_ssl_cert }};"
   when: nginx_ssl_cert is defined
   notify: restart nginx
 
-- name: Install alternative nginx keyfile
+- name: Install alternative Web UI certificate
   lineinfile:
     dest:  "/etc/nginx/sites-enabled/default-sdsb"
     regexp: "ssl_certificate_key"
-    line: "        ssl_certificate_key {{ nginx_ssl_key }};"
+    line: "        ssl_certificate_key {{ internal_ssl_key }};"
   when: nginx_ssl_key is defined
+  notify: restart nginx
+
+- name: Install alternative SOAP interface certificate
+  file:
+    path: /etc/sdsb/ssl/nginx.crt
+    src: "{{ nginx_ssl_cert }}"
+    state: link
+    force: yes
+  notify: restart nginx
+
+- name: Install alternative SOAP interface keyfile
+  file:
+    path: /etc/sdsb/ssl/nginx.key
+    src: "{{ nginx_ssl_key }}"
+    state: link
+    force: yes
   notify: restart nginx
 
 - name: Workaround to service utility potentially not stopping nginx
