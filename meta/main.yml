@@ -2,8 +2,8 @@
 galaxy_info:
   author: Jukka Nousiainen
   description: Role for installing Secure Server for X-Road.
-  company: Digile Oy
-  license: BSD
+  company: DIGILE Ltd.
+  license: MIT
   min_ansible_version: 1.8
   platforms:
   - name: Ubuntu
